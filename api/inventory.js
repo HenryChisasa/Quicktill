@@ -6,6 +6,8 @@ const async = require("async");
 const fileUpload = require("express-fileupload");
 const multer = require("multer");
 const fs = require("fs");
+const csv = require('csv-parser');
+const unzipper = require('unzipper');
 
 const storage = multer.diskStorage({
   destination: process.env.APPDATA + "/POS/uploads",
@@ -176,3 +178,78 @@ app.decrementInventory = function (products, callback) {
     }
   );
 };
+
+// Bulk upload endpoint
+const multerBulk = multer({ dest: process.env.APPDATA + '/POS/uploads' });
+app.post('/bulk-upload', multerBulk.fields([
+  { name: 'csvFile', maxCount: 1 },
+  { name: 'imagesZip', maxCount: 1 }
+]), async function(req, res) {
+  if (!req.files || !req.files['csvFile']) {
+    return res.status(400).json({ message: 'No CSV file uploaded.' });
+  }
+  const csvFilePath = req.files['csvFile'][0].path;
+  let imagesMap = {};
+  const uploadDir = process.env.APPDATA + '/POS/uploads/';
+  // If imagesZip is provided, extract it and build a map of filenames
+  if (req.files['imagesZip']) {
+    const zipPath = req.files['imagesZip'][0].path;
+    await new Promise((resolve, reject) => {
+      fs.createReadStream(zipPath)
+        .pipe(unzipper.Parse())
+        .on('entry', function (entry) {
+          const fileName = entry.path;
+          if (fileName.match(/\.(jpg|jpeg|png|gif)$/i)) {
+            const destPath = uploadDir + fileName;
+            entry.pipe(fs.createWriteStream(destPath));
+            imagesMap[fileName] = fileName;
+          } else {
+            entry.autodrain();
+          }
+        })
+        .on('close', resolve)
+        .on('error', reject);
+    });
+  }
+  const results = [];
+  const errors = [];
+  fs.createReadStream(csvFilePath)
+    .pipe(csv())
+    .on('data', (row) => {
+      if (!row.name || !row.category || !row.price || !row.quantity) {
+        errors.push({ row, error: 'Missing required fields' });
+        return;
+      }
+      let imgFile = row.img || '';
+      if (imgFile && imagesMap[imgFile]) {
+        imgFile = imagesMap[imgFile];
+      }
+      let Product = {
+        _id: Math.floor(Date.now() / 1000) + Math.floor(Math.random() * 10000),
+        name: row.name,
+        category: row.category,
+        price: row.price,
+        quantity: row.quantity,
+        barcode: row.barcode || '',
+        stock: row.stock === '0' ? 0 : 1,
+        img: imgFile,
+      };
+      results.push(Product);
+    })
+    .on('end', () => {
+      if (results.length === 0) {
+        return res.status(400).json({ message: 'No valid products found in file.' });
+      }
+      inventoryDB.insert(results, function(err, newDocs) {
+        if (err) {
+          return res.status(500).json({ message: 'Database error.', error: err });
+        }
+        let msg = `${newDocs.length} products uploaded successfully.`;
+        if (errors.length > 0) msg += ` ${errors.length} rows skipped due to errors.`;
+        return res.json({ message: msg, errors });
+      });
+    })
+    .on('error', (err) => {
+      return res.status(500).json({ message: 'Failed to parse CSV.', error: err });
+    });
+});

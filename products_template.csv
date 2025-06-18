@@ -1,0 +1,6 @@
+name,category,price,quantity,barcode,stock,img
+"Coca Cola 500ml","Beverages",12.50,100,6001234567890,1,coke500ml.png
+"White Bread Loaf","Bakery",8.00,50,6009876543210,1,breadloaf.png
+"Fresh Milk 1L","Dairy",15.75,80,6001122334455,1,milk1l.png
+"Sunflower Oil 2L","Grocery",45.00,40,6009988776655,1,sunoil2l.png
+"Toothpaste 100g","Personal Care",10.00,60,6005566778899,1,toothpaste100g.png 

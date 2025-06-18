@@ -15,7 +15,13 @@
     <link href="assets/css/pages.css" rel="stylesheet" type="text/css" />
     </head>
   <body>
-    
+    <div class="header" style="display: flex; align-items: center; justify-content: center; margin-top: 20px; margin-bottom: 20px;">
+      <img src="assets/images/globaleye_logo.png" alt="Global Eye Technology Logo" style="height: 110px; margin-right: 30px;">
+      <div>
+        <h1 style="margin: 0; font-size: 2.5rem; color: #1a237e;">GlobalPOS</h1>
+        <div style="font-size: 1rem; color: #4caf50; font-weight: bold;">by Global Eye Technology</div>
+      </div>
+    </div>
   <div class="main_app">
 
   <div id="loading"></div>
@@ -606,7 +612,8 @@
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
                     <h4 class="modal-title" id="mySmallModalLabel">Product
-                        <img  class="loading m-t-5" style="margin-left: 35%" height="50px" src="assets/images/loading.gif" alt="">
+                        <img class="loading m-t-5" style="margin-left: 35%" height="50px" src="assets/images/loading.gif" alt="">
+                        <button class="btn btn-success pull-right" id="bulk_upload_btn" style="margin-right: 10px;">Bulk Upload Products</button>
                     </h4>
                 </div>
                 <div class="modal-body">
@@ -620,7 +627,7 @@
                         </div>
                         <div class="form-group">
                             <label for="userName">Product Name</label>
-                            <input type="text" required="required"  name="name" parsley-trigger="change" placeholder="Enter a product name" class="form-control" id="productName">
+                            <input type="text" required="required" name="name" parsley-trigger="change" placeholder="Enter a product name" class="form-control" id="productName">
                         </div>
                         <div class="form-group">
                             <label for="userName">Price</label>
@@ -642,9 +649,8 @@
                         <div class="form-group">
                             <label for="userName"><span id="rmv_img" class="btn btn-xs btn-warning">Remove</span> Picture </label>                      
                             <div id="current_img"></div>
-                            <input type="file" name="imagename" id="imagename">                            
+                            <input type="file" name="imagename" id="imagename" class="form-control">
                         </div>
-  
                         <input type="submit" id="submitProduct" class="btn btn-primary btn-block waves-effect waves-light">
                     </form>
                 </div>
@@ -685,7 +691,7 @@
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
                         <h4 class="modal-title" id="mySmallModalLabel">Products
-                            <img  class="loading m-t-5" style="margin-left: 35%" height="50px" src="assets/images/loading.gif" alt="">
+                            <img class="loading m-t-5" style="margin-left: 35%" height="50px" src="assets/images/loading.gif" alt="">
                             <button class="btn btn-white pull-right" id="print_list">Download</button>
                         </h4>                        
                     </div>
@@ -1081,4 +1087,64 @@ require('./renderer.js');
      </script>
 
   </body>
+  <footer style="width: 100%; text-align: center; padding: 10px 0; background: #f5f5f5; position: fixed; bottom: 0; left: 0; z-index: 9999; font-size: 1.2rem; color: #333;">
+    <span style="font-size: 1.2rem;">&copy; All Rights Reserved Global Eye Technology (Proprietary) Limited</span>
+  </footer>
 </html>
+
+<!-- Bulk Upload Modal -->
+<div id="bulkUploadModal" class="modal fade" tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-md">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h4 class="modal-title" id="bulkUploadLabel">Bulk Upload Products (CSV)</h4>
+      </div>
+      <div class="modal-body">
+        <form id="bulkUploadForm" enctype="multipart/form-data">
+          <div class="form-group">
+            <label for="csvFile">Select CSV File</label>
+            <input type="file" class="form-control" id="csvFile" name="csvFile" accept=".csv" required>
+            <small>Fields: name, category, price, quantity, barcode, stock, img (optional, should match image filename in zip)</small>
+            <button type="button" class="btn btn-info btn-sm" id="downloadTemplate">
+              <i class="fa fa-download"></i> Download Template
+            </button>
+          </div>
+          <div class="form-group">
+            <label for="imagesZip">Product Images (ZIP, optional)</label>
+            <input type="file" class="form-control" id="imagesZip" name="imagesZip" accept=".zip">
+            <small>Upload a ZIP file containing product images referenced in the CSV (filenames must match the img column).</small>
+          </div>
+          <button type="submit" class="btn btn-primary">Upload</button>
+        </form>
+        <div id="bulkUploadResult" style="margin-top: 15px;"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Image Search Modal -->
+<div id="imageSearchModal" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title">Search Product Image</h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <input type="text" id="imageSearchQuery" class="form-control" placeholder="Enter product name or brand...">
+                </div>
+                <div class="form-group">
+                    <button type="button" class="btn btn-primary" id="performImageSearch">Search</button>
+                </div>
+                <div id="imageSearchResults" class="row" style="margin-top: 20px;">
+                    <!-- Search results will be displayed here -->
+                </div>
+                <div id="imageSearchLoading" style="display: none; text-align: center;">
+                    <img src="assets/images/loading.gif" alt="Loading...">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

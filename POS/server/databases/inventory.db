@@ -1,0 +1,13 @@
+{"_id":1750024271,"price":"28.00","category":"0","quantity":93,"name":"Fanta","stock":1,"barcode":"101050032512","img":"1750046940524.jpg"}
+{"_id":1750024319,"price":"23.00","category":"0","quantity":8,"name":"Salt","stock":1,"barcode":"894320893288","img":"1750046723855.jpg"}
+{"_id":1750045504,"price":"5.99","category":"0","quantity":22,"name":"Sunflower Oil 2L","stock":1,"barcode":"OIL001","img":"1750046852810.jpg"}
+{"_id":1750053579,"price":"1.50","category":"0","quantity":96,"name":"Coca Cola 500ml","stock":1,"barcode":"COKE500","img":"1750046870610.jpg"}
+{"_id":1750054330,"price":"2.99","category":"0","quantity":"60","name":"Toothpaste 100g","stock":1,"barcode":"TP001","img":"1750046893029.jpg"}
+{"_id":1750054609,"price":"3.50","category":"0","quantity":70,"name":"Fresh Milk 1L","stock":1,"barcode":"MILK001","img":"1750046915329.jpg"}
+{"_id":1750055099,"price":"2.00","category":"0","quantity":45,"name":"White Bread Loaf","stock":1,"barcode":"BREAD001","img":"1750047018361.jpg"}
+{"_id":1750091963,"price":"20","category":"0","quantity":39,"name":"Soap","stock":1,"barcode":"12898","img":"1750091963041.jpg"}
+{"_id":1750092636,"name":"White Bread Loaf","category":"Bakery","price":"8.00","quantity":49,"barcode":"6009876543210","stock":1,"img":"breadloaf.png"}
+{"_id":1750096590,"name":"Sunflower Oil 2L","category":"Grocery","price":"45.00","quantity":"40","barcode":"6009988776655","stock":1,"img":"sunoil2l.png"}
+{"_id":1750098130,"name":"Fresh Milk 1L","category":"Dairy","price":"15.75","quantity":"80","barcode":"6001122334455","stock":1,"img":"milk1l.png"}
+{"_id":1750099052,"name":"Toothpaste 100g","category":"Personal Care","price":"10.00","quantity":"60","barcode":"6005566778899","stock":1,"img":"toothpaste100g.png "}
+{"_id":1750101572,"name":"Coca Cola 500ml","category":"Beverages","price":"12.50","quantity":"100","barcode":"6001234567890","stock":1,"img":"coke500ml.png"}

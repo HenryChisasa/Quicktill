@@ -124,4 +124,38 @@ $(document).ready(function(){
         }
     }
 
+    // Bulk Upload Button opens modal
+    $(document).on('click', '#bulk_upload_btn', function() {
+        $('#bulkUploadModal').modal('show');
+        $('#bulkUploadResult').html('');
+        $('#bulkUploadForm')[0].reset();
+    });
+
+    // Handle bulk upload form submit
+    $(document).on('submit', '#bulkUploadForm', function(e) {
+        e.preventDefault();
+        var formData = new FormData(this);
+        // Add imagesZip if selected
+        var imagesZip = $('#imagesZip')[0].files[0];
+        if (imagesZip) {
+            formData.append('imagesZip', imagesZip);
+        }
+        $('#bulkUploadResult').html('<span style="color:blue">Uploading...</span>');
+        $.ajax({
+            url: 'http://localhost:8001/api/inventory/bulk-upload',
+            type: 'POST',
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function(res) {
+                $('#bulkUploadResult').html('<span style="color:green">' + res.message + '</span>');
+            },
+            error: function(xhr) {
+                let msg = 'Upload failed.';
+                if(xhr.responseJSON && xhr.responseJSON.message) msg = xhr.responseJSON.message;
+                $('#bulkUploadResult').html('<span style="color:red">' + msg + '</span>');
+            }
+        });
+    });
+
 })

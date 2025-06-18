@@ -3,7 +3,7 @@ const { autoUpdater } = require('electron-updater');
 const log = require('electron-log');
 autoUpdater.logger = log;
 autoUpdater.logger.transports.file.level = 'info';
-const {app, BrowserWindow, ipcMain} = require('electron');
+const {app, BrowserWindow, ipcMain, screen} = require('electron');
 const path = require('path')
 
 // Retrieve the app version
@@ -48,11 +48,14 @@ const contextMenu = require('electron-context-menu');
 let mainWindow
 
 function createWindow() {
+  const primaryDisplay = screen.getPrimaryDisplay();
+  const { width, height } = primaryDisplay.workAreaSize;
+
   mainWindow = new BrowserWindow({
-    width: 1500,
-    height: 1200,
+    width: width,
+    height: height,
     frame: false,
-    minWidth: 1200, 
+    minWidth: 1200,
     minHeight: 750,
     webPreferences: {
       nodeIntegration: true,
@@ -61,7 +64,6 @@ function createWindow() {
     },
   });
 
-  mainWindow.maximize();
   mainWindow.show();
 
   mainWindow.loadURL(

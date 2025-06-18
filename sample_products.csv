@@ -1,0 +1,6 @@
+name,category,price,quantity,barcode,stock,img
+Test Product 1,Electronics,99.99,10,123456789,1,product1.jpg
+Test Product 2,Clothing,29.99,20,234567890,1,product2.jpg
+Test Product 3,Food,5.99,50,345678901,1,product3.jpg
+Test Product 4,Electronics,199.99,5,456789012,1,product4.jpg
+Test Product 5,Clothing,49.99,15,567890123,1,product5.jpg 
